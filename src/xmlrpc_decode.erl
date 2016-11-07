@@ -190,8 +190,11 @@ decode_members(Content) ->
     end.
 
 %% If the member name does not exist as an atom we keep it as a list
+%% 2016-11-7  make sure this is a atom.
 decode_member_name(L) when is_list(L) ->
-	L.
+	try list_to_existing_atom(L)
+	catch error:badarg -> list_to_atom(L)
+	end.
 
 decode_values([]) -> [];
 decode_values(Content) ->
